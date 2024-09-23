@@ -74,7 +74,7 @@ class _NewExpenseState extends State<NewExpense> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15,50,15,15),
+      padding: const EdgeInsets.fromLTRB(15, 50, 15, 15),
       child: Column(
         children: [
           TextField(

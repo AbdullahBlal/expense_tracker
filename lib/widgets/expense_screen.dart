@@ -38,7 +38,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       _registeredExpenses.add(expense);
     });
   }
-    void _removeExpense(Expense expense) {
+
+  void _removeExpense(Expense expense) {
     setState(() {
       _registeredExpenses.remove(expense);
     });
@@ -46,6 +47,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text("No expenses, try to add some"),
+    );
+    if(_registeredExpenses.isNotEmpty)
+    {
+      ExpenseList(
+                expensesList: _registeredExpenses,
+                onRemoveExpense: _removeExpense,
+              );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Expense Tracker'),
@@ -62,7 +73,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             const Text('Chart'),
             const Text('Expenses'),
             Expanded(
-              child: ExpenseList(expensesList: _registeredExpenses, onRemoveExpense: _removeExpense,),
+              child: mainContent
             ),
           ],
         ),
