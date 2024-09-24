@@ -40,9 +40,24 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   }
 
   void _removeExpense(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text("Expense Deleted Successfully"),
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                _registeredExpenses.insert(expenseIndex, expense);
+              });
+            }),
+      ),
+    );
   }
 
   @override
@@ -50,12 +65,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     Widget mainContent = const Center(
       child: Text("No expenses, try to add some"),
     );
-    if(_registeredExpenses.isNotEmpty)
-    {
-      ExpenseList(
-                expensesList: _registeredExpenses,
-                onRemoveExpense: _removeExpense,
-              );
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpenseList(
+        expensesList: _registeredExpenses,
+        onRemoveExpense: _removeExpense,
+      );
     }
     return Scaffold(
       appBar: AppBar(
@@ -67,16 +81,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           )
         ],
       ),
-      body: Expanded(
-        child: Column(
-          children: [
-            const Text('Chart'),
-            const Text('Expenses'),
-            Expanded(
-              child: mainContent
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          const Text('Chart'),
+          const Text('Expenses'),
+          Expanded(child: mainContent),
+        ],
       ),
     );
   }

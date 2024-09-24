@@ -15,8 +15,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
-  Category? _selectedCategory;
-  void _saveTitleInput(String inputValue) => _enteredTitle = inputValue;
+  Category _selectedCategory = Category.food;
   void _datePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
@@ -59,7 +58,7 @@ class _NewExpenseState extends State<NewExpense> {
         title: _titleController.text,
         amount: enteredAmount,
         date: _selectedDate!,
-        category: _selectedCategory!));
+        category: _selectedCategory));
     Navigator.of(context).pop();
   }
 
@@ -87,7 +86,6 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               Expanded(
                 child: TextField(
-                  //onChanged: _saveTitleInput ,
                   controller: _amountController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -120,20 +118,21 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           Row(
             children: [
-              DropdownButton(
-                  value: _selectedCategory,
-                  items: Category.values
-                      .map((category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(category.name.toUpperCase()),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      if (value != null) _selectedCategory = value;
-                    });
-                    print(value);
-                  }),
+              Expanded(
+                child: DropdownButton(
+                    value: _selectedCategory,
+                    items: Category.values
+                        .map((category) => DropdownMenuItem(
+                              value: category,
+                              child: Text(category.name.toUpperCase()),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) _selectedCategory = value;
+                      });
+                    }),
+              ),
               const Spacer(),
               TextButton(
                 onPressed: () {
