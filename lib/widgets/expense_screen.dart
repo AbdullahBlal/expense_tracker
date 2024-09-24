@@ -1,8 +1,9 @@
+import 'package:expense_trackerapp/widgets/charts/chart_bar.dart';
 import 'package:expense_trackerapp/widgets/expenses_list/expense_list.dart';
 import 'package:expense_trackerapp/models/expense.dart';
 import 'package:expense_trackerapp/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
-
+import 'package:expense_trackerapp/widgets/charts/chart.dart';
 class ExpenseScreen extends StatefulWidget {
   const ExpenseScreen({super.key});
   @override
@@ -84,6 +85,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       body: Column(
         children: [
           const Text('Chart'),
+          Chart(expenses: _registeredExpenses),
           const Text('Expenses'),
           Expanded(child: mainContent),
         ],
